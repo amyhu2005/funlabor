@@ -140,15 +140,15 @@ body {
 /* Bio Section */
 .bio-content {
     display: grid;
-    grid-template-columns: 0.8fr 1.2fr;
+    grid-template-columns: 0.9fr 1.1fr;
     gap: 4rem;
     align-items: center;
     max-width: 1400px;
-    padding-left: 10vw;
+    padding-left: 0;
 }
 
 .hi-amy {
-    font-size: 4.5rem;
+    font-size: 3rem;
     font-weight: 800;
     letter-spacing: -0.02em;
     line-height: 1.1;
@@ -156,28 +156,28 @@ body {
 }
 
 .chinese-name {
-    font-size: 2.2rem;
+    font-size: 1.6rem;
     color: var(--text-muted);
     font-weight: 300;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
     opacity: 0.6;
 }
 
 .menu {
     list-style: none;
-    margin-top: 5rem;
+    margin-top: 2rem;
 }
 
 .menu li {
-    margin-bottom: 1rem;
+    margin-bottom: 0.8rem;
     width: fit-content;
 }
 
 .menu a {
     text-decoration: none;
     color: var(--text-main);
-    font-size: 1.4rem;
-    padding: 0.3rem 0;
+    font-size: 1.15rem;
+    padding: 0.2rem 0;
     display: block;
     transition: var(--transition);
     font-weight: 500;

@@ -19,14 +19,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     if (container) {
-        container.addEventListener('scroll', () => {
-            const scrollPosition = container.scrollTop;
-            if (scrollPosition > 100) {
-                sidebar.classList.add('visible');
-            } else {
-                sidebar.classList.remove('visible');
-            }
-        });
+        const hasSplash = container.querySelector('.splash');
+        if (hasSplash) {
+            container.addEventListener('scroll', () => {
+                const scrollPosition = container.scrollTop;
+                if (scrollPosition > 100) {
+                    sidebar.classList.add('visible');
+                } else {
+                    sidebar.classList.remove('visible');
+                }
+            });
+        } else {
+            sidebar.classList.add('visible');
+        }
     } else if (sidebar) {
         // If not on homepage (no container), ensure sidebar is always visible
         sidebar.classList.add('visible');
@@ -55,7 +60,8 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', () => { lastRect = existenceText.getBoundingClientRect(); });
 
     const updateFlashlight = () => {
-        if (!flashlightUnlocked || container.scrollTop < window.innerHeight * 0.5) {
+        const hasSplash = container && container.querySelector('.splash');
+        if (!flashlightUnlocked || (hasSplash && container.scrollTop < window.innerHeight * 0.5)) {
             existenceText.style.setProperty('--mask-size', '0px');
             requestAnimationFrame(updateFlashlight);
             return;
