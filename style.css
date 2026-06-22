@@ -197,60 +197,116 @@ body {
 /* Sidebar Navigation */
 .floating-sidebar {
     position: fixed;
-    right: 20px;
+    right: 24px;
     top: 50%;
-    transform: translateY(-50%);
-    background: white;
-    border: 1px solid var(--border-color);
-    padding: 20px 10px;
+    transform: translateY(-50%) translateX(30px);
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    padding: 16px 8px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
     z-index: 1000;
-    box-shadow: -10px 10px 0px rgba(0, 0, 0, 0.05);
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.05),
+        0 1px 3px rgba(0, 0, 0, 0.02),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
     height: fit-content;
     width: fit-content;
+    opacity: 0;
+    pointer-events: none;
+    transition: 
+        opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        background-color 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.floating-sidebar.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(-50%) translateX(0);
 }
 
 .sidebar-item {
     color: var(--text-muted);
-    transition: var(--transition);
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    border: 1px solid transparent;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
     position: relative;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    text-decoration: none;
+}
+
+.sidebar-item i {
+    width: 20px;
+    height: 20px;
+    stroke-width: 1.75px;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .sidebar-item::after {
     content: attr(data-label);
     position: absolute;
-    right: 50px;
+    right: 52px;
     background: var(--text-main);
     color: white;
-    padding: 4px 10px;
-    font-size: 0.75rem;
+    padding: 6px 12px;
+    font-size: 0.7rem;
     font-family: var(--mono-font);
     text-transform: uppercase;
+    letter-spacing: 0.08em;
     white-space: nowrap;
     opacity: 0;
     pointer-events: none;
-    transition: all 0.2s ease;
-    border-radius: 4px;
+    transform: translateX(10px);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .sidebar-item:hover::after {
     opacity: 1;
-    right: 55px;
+    transform: translateX(0);
 }
 
-.sidebar-item:hover, .sidebar-item.active {
+.sidebar-item:hover {
     color: var(--accent-orange);
-    border: 1px solid var(--accent-orange);
-    background: #fff5f0;
+    background: rgba(255, 77, 0, 0.06);
+}
+
+.sidebar-item:hover i {
+    transform: scale(1.12);
+}
+
+.sidebar-item.active {
+    color: white !important;
+    background: var(--accent-orange);
+    box-shadow: 0 4px 12px rgba(255, 77, 0, 0.35);
+}
+
+.sidebar-item.active i {
+    transform: scale(1.05);
+}
+
+.sidebar-item.active::before {
+    content: '';
+    position: absolute;
+    left: -4px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 12px;
+    background: var(--accent-orange);
+    border-radius: 0 4px 4px 0;
+    opacity: 0.8;
 }
 
 /* Existence Reveal */
@@ -481,11 +537,35 @@ body {
         bottom: 20px;
         top: auto;
         left: 50%;
-        transform: translateX(-50%);
+        transform: translateX(-50%) translateY(30px);
         flex-direction: row;
         width: auto;
         height: auto;
-        padding: 10px 20px;
+        padding: 8px 12px;
+        border-radius: 24px;
+        gap: 8px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    }
+    .floating-sidebar.visible {
+        transform: translateX(-50%) translateY(0);
+    }
+    .sidebar-item::after {
+        right: auto;
+        bottom: 58px;
+        left: 50%;
+        transform: translateX(-50%) translateY(10px);
+    }
+    .sidebar-item:hover::after {
+        transform: translateX(-50%) translateY(0);
+    }
+    .sidebar-item.active::before {
+        left: 50%;
+        top: auto;
+        bottom: -4px;
+        transform: translateX(-50%);
+        width: 12px;
+        height: 4px;
+        border-radius: 4px 4px 0 0;
     }
 }
 
