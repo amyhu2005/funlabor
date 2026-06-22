@@ -140,12 +140,11 @@ body {
 /* Bio Section */
 .bio-content {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 0.9fr 1.1fr;
     gap: 4rem;
     align-items: center;
     max-width: 1400px;
-    padding-left: 0;
-    margin: 0 auto;
+    padding-left: 10vw;
 }
 
 .hi-amy {
@@ -577,7 +576,7 @@ body {
 .scribble-mark {
     position: absolute;
     top: 45%;
-    left: 15vw;
+    right: 15vw;
     width: 450px;
     height: auto;
     opacity: 0.8;
