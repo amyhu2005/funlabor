@@ -7,6 +7,49 @@ document.addEventListener('DOMContentLoaded', () => {
     
     let flashlightUnlocked = false;
 
+    // Browser & Device detection
+    const detectBrowserAndDevice = () => {
+        const ua = navigator.userAgent;
+        const body = document.body;
+        
+        let device = "DESKTOP";
+        let browser = "UNKNOWN_BROWSER";
+        let os = "UNKNOWN_OS";
+
+        if (/Macintosh|Mac OS X/i.test(ua)) os = "MACOS";
+        else if (/Windows/i.test(ua)) os = "WINDOWS";
+        else if (/iPhone|iPad|iPod/i.test(ua)) os = "IOS";
+        else if (/Android/i.test(ua)) os = "ANDROID";
+        else if (/Linux/i.test(ua)) os = "LINUX";
+
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua) || window.innerWidth <= 768;
+        if (isMobile) {
+            body.classList.add('is-mobile');
+            device = "MOBILE";
+        }
+
+        const isChrome = /Chrome|Chromium|CriOS/i.test(ua) && !/Edge|Edg|OPR/i.test(ua);
+        const isSafari = /Safari/i.test(ua) && !/Chrome|Chromium|CriOS/i.test(ua) && !/Edge|Edg/i.test(ua);
+        const isFirefox = /Firefox/i.test(ua);
+
+        if (isChrome) {
+            body.classList.add('is-chrome');
+            browser = "CHROME";
+        } else if (isSafari) {
+            body.classList.add('is-safari');
+            browser = "SAFARI";
+        } else if (isFirefox) {
+            body.classList.add('is-firefox');
+            browser = "FIREFOX";
+        }
+
+        const coreTag = document.querySelector('.tech-tag.vertical');
+        if (coreTag) {
+            coreTag.textContent = `SYSTEM_V2.0.4 // AMY_CORE // ENV: ${browser}_${os}_${device}`;
+        }
+    };
+    detectBrowserAndDevice();
+
     // Sidebar Visibility and Active State
     const currentPath = window.location.pathname.split('/').pop() || 'index.html';
     const sidebarItems = document.querySelectorAll('.sidebar-item');
@@ -44,15 +87,31 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentY = 0;
     let firstMove = true;
 
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
+    const handleMove = (x, y) => {
+        mouseX = x;
+        mouseY = y;
         if (firstMove) {
             currentX = mouseX;
             currentY = mouseY;
             firstMove = false;
         }
+    };
+
+    document.addEventListener('mousemove', (e) => {
+        handleMove(e.clientX, e.clientY);
     });
+
+    document.addEventListener('touchmove', (e) => {
+        if (e.touches.length > 0) {
+            handleMove(e.touches[0].clientX, e.touches[0].clientY);
+        }
+    }, { passive: true });
+
+    document.addEventListener('touchstart', (e) => {
+        if (e.touches.length > 0) {
+            handleMove(e.touches[0].clientX, e.touches[0].clientY);
+        }
+    }, { passive: true });
 
     let lastRect = existenceText.getBoundingClientRect();
     // Update rect only on scroll/resize for performance
@@ -90,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Scribble Interaction - Unlocks Flashlight
     if (scribble) {
-        scribble.addEventListener('mouseover', () => {
+        const unlockFlashlight = () => {
             scribble.style.opacity = '0';
             setTimeout(() => {
                 scribble.remove();
@@ -100,7 +159,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 currentX = mouseX;
                 currentY = mouseY;
             }, 300);
-        });
+        };
+
+        scribble.addEventListener('mouseover', unlockFlashlight);
+        scribble.addEventListener('click', unlockFlashlight);
+        scribble.addEventListener('touchstart', unlockFlashlight, { passive: true });
     }
 
     // Technical flair: Dynamic Session ID and System Clock

@@ -41,12 +41,14 @@ body {
 /* Scroll Snap Container */
 .container {
     height: 100vh;
+    height: 100dvh;
     overflow-y: auto;
     scroll-snap-type: y mandatory;
 }
 
 .home-section {
     min-height: 100vh;
+    min-height: 100dvh;
     width: 100%;
     scroll-snap-align: start;
     padding: 5vh 10vw;
@@ -975,4 +977,51 @@ body.pegboard-bg {
     color: var(--accent-orange);
     transform: translate(-2px, -2px);
     box-shadow: 8px 8px 0px rgba(255,77,0,0.1);
+}
+
+/* Chrome & Safari Webkit Scrollbar overrides - only applies when custom scrollbar is enabled or on Chrome desktop */
+body.is-chrome::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+body.is-chrome::-webkit-scrollbar-track {
+    background: var(--bg-color);
+    border-left: 1px solid var(--border-color);
+}
+body.is-chrome::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+body.is-chrome::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-orange);
+}
+
+body.is-chrome .container::-webkit-scrollbar {
+    width: 6px;
+}
+body.is-chrome .container::-webkit-scrollbar-track {
+    background: transparent;
+}
+body.is-chrome .container::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+}
+body.is-chrome .container::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-orange);
+}
+
+/* Safari specific tweaks */
+body.is-safari {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+body.is-safari .floating-sidebar {
+    background: rgba(255, 255, 255, 0.9);
+}
+
+/* Mobile responsive layout fixes */
+body.is-mobile {
+    cursor: default;
+}
+body.is-mobile .scribble-mark {
+    cursor: pointer;
 }
